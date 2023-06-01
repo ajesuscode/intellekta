@@ -6,15 +6,10 @@ function Navbar({ title: string }) {
     const [navbar, setNavbar] = useState(false);
     return (
         <>
-            <nav className="w-full bg-zinc-900 shadow">
-                <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
+            <nav className="w-full bg-zinc-900 shadow fixed">
+                <div className="justify-between px-4 mx-8 lg:max-w-7xl md:items-center md:flex md:px-8">
                     <div>
                         <div className="flex items-center justify-between py-3 md:py-5 md:block">
-                            <Link href="/">
-                                <h2 className="text-2xl text-white font-bold">
-                                    Intellekta
-                                </h2>
-                            </Link>
                             <div className="md:hidden">
                                 <button
                                     className="p-2 text-gray-700 rounded-md outline-none focus:border-gray-400 focus:border"

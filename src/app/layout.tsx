@@ -1,8 +1,7 @@
+import Drawer from "./components/Drawer";
+import { Suspense } from "react";
 import Navbar from "./components/Navbar";
 import "./globals.css";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
     title: "Intellekta",
@@ -15,10 +14,14 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en">
-            <body className={inter.className}>
-                <Navbar title={metadata.title} />
-                <main className="bg-zinc-950 h-screen p-8">{children}</main>
+        <html lang="en" className="h-screen">
+            <body className="h-screen bg-zinc-950 ">
+                <Suspense fallback="...">
+                    {/* @ts-expect-error Server Component */}
+                    <Navbar />
+                    <Drawer />
+                    <div className="pt-12"> {children}</div>
+                </Suspense>
             </body>
         </html>
     );
