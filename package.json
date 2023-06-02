@@ -10,6 +10,7 @@
         "script": "tsx src/app/tutors/script.ts"
     },
     "dependencies": {
+        "@heroicons/react": "^2.0.18",
         "@types/node": "20.2.4",
         "@types/react": "18.2.7",
         "@types/react-dom": "18.2.4",

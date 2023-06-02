@@ -1,7 +1,10 @@
 "use client";
 import React, { ReactNode, useState } from "react";
+
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
+import { ChevronDoubleLeftIcon } from "@heroicons/react/24/outline";
+import { AcademicCapIcon } from "@heroicons/react/24/outline";
 import { directories, type Item } from "@/lib/directories/directories";
 
 interface DrawerProps {
@@ -17,7 +20,7 @@ export default function Drawer({ children }: DrawerProps) {
                 "fixed overflow-hidden z-10 bg-gray-900 bg-opacity-0 inset-0 transform ease-in-out " +
                 (isOpen
                     ? "transition-all duration-500 transform translate-x-0 w-64"
-                    : "transition-all duration-500 transform fixed w-10")
+                    : "transition-all duration-500 transform fixed w-16")
             }
         >
             <section
@@ -25,7 +28,7 @@ export default function Drawer({ children }: DrawerProps) {
                     "left-0 absolute bg-zinc-900 h-full shadow-xl delay-400 duration-500 ease-in-out transition-all transform " +
                     (isOpen
                         ? "transition-all duration-500 transform translate-x-0 w-64 max-w-xs"
-                        : "transition-all duration-500 transform  w-10")
+                        : "transition-all duration-500 transform  w-16")
                 }
             >
                 <article
@@ -33,12 +36,20 @@ export default function Drawer({ children }: DrawerProps) {
                         "relative w-full max-w-xs pb-10 flex flex-col space-y-6 overflow-y-scroll h-full "
                     }
                 >
-                    <header className="flex flex-row justify-between p-4 ">
-                        <div className="text-emerald-600 font-bold text-lg ">
+                    <header className="flex flex-row justify-between px-4 bg-zinc-800">
+                        <div className="pl-4 p-4">
                             {isOpen ? (
-                                <Link href="/">Intellekta</Link>
+                                <Link
+                                    href="/"
+                                    className="text-emerald-600 font-bold text-lg"
+                                >
+                                    Intellekta
+                                </Link>
                             ) : (
-                                <button onClick={() => setIsOpen(true)}>
+                                <button
+                                    onClick={() => setIsOpen(true)}
+                                    className="text-emerald-600 font-bold text-lg"
+                                >
                                     I
                                 </button>
                             )}
@@ -46,12 +57,12 @@ export default function Drawer({ children }: DrawerProps) {
                         <button
                             hidden={!isOpen}
                             onClick={() => setIsOpen(false)}
-                            className="text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500"
+                            className="text-gray-600 hover:text-gray-700 focus:outline-none focus:text-gray-500"
                         >
-                            X
+                            <ChevronDoubleLeftIcon className="h-6 w-6 text-gray-600" />
                         </button>
                     </header>
-                    <div className="flex flex-col p-10 gap-8">
+                    <div className="flex flex-col px-4 gap-2">
                         {directories.map((item, index) => (
                             <DirItem key={index} item={item} />
                         ))}
@@ -73,17 +84,33 @@ export default function Drawer({ children }: DrawerProps) {
         const isActive = item.slug === segment;
         console.log(isActive);
         return (
-            <Link
-                href={`${item.path}`}
-                className={
-                    "text-emerald-300 font-bold text-xs" +
-                    (isActive
-                        ? "text-zinc-300 bg-emerald-700 rounded-lg p-4"
-                        : "text-emerald-300")
-                }
-            >
-                {item.name}
-            </Link>
+            <>
+                {isOpen ? (
+                    <Link
+                        href={`${item.path}`}
+                        className={
+                            "flex flex-row font-normal text-md p-2 " +
+                            (isActive
+                                ? "p-2 px-4 rounded-lg hover:bg-emerald-600 bg-emerald-700 text-zinc-300"
+                                : "p-2 px-4 rounded-lg hover:bg-zinc-800 text-zinc-500")
+                        }
+                    >
+                        <div>{item.name}</div>
+                    </Link>
+                ) : (
+                    <Link
+                        href={`${item.path}`}
+                        className={
+                            "flex flex-row font-normal text-md p-2 justify-centre items-center" +
+                            (isActive
+                                ? "p-4 rounded-lg hover:bg-emerald-600 bg-emerald-700 text-zinc-300"
+                                : "p-4 rounded-lg hover:bg-zinc-800 text-zinc-500")
+                        }
+                    >
+                        <div className="">{item.name.slice(0, 1)}</div>
+                    </Link>
+                )}
+            </>
         );
     }
 }
