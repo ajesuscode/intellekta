@@ -15,12 +15,12 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en" className="h-screen">
-            <body className="h-screen bg-zinc-950 ">
+            <body className="h-screen bg-base-100">
                 <Suspense fallback="...">
                     {/* @ts-expect-error Server Component */}
                     <Navbar />
                     <Drawer />
-                    <div className="pt-12"> {children}</div>
+                    <div className="pt-12">{children}</div>
                 </Suspense>
             </body>
         </html>

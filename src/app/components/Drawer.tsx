@@ -17,7 +17,7 @@ export default function Drawer({ children }: DrawerProps) {
     return (
         <main
             className={
-                "fixed overflow-hidden z-10 bg-gray-900 bg-opacity-0 inset-0 transform ease-in-out " +
+                "fixed overflow-hidden z-10 inset-0 transform ease-in-out " +
                 (isOpen
                     ? "transition-all duration-500 transform translate-x-0 w-64"
                     : "transition-all duration-500 transform fixed w-16")
@@ -25,9 +25,9 @@ export default function Drawer({ children }: DrawerProps) {
         >
             <section
                 className={
-                    "left-0 absolute bg-zinc-900 h-full shadow-xl delay-400 duration-500 ease-in-out transition-all transform " +
+                    "left-0 absolute bg-base-200 h-full shadow-xl delay-400 duration-500 ease-in-out transition-all transform " +
                     (isOpen
-                        ? "transition-all duration-500 transform translate-x-0 w-64 max-w-xs"
+                        ? "transition-all duration-500 transform translate-x-0 w-52 max-w-xs"
                         : "transition-all duration-500 transform  w-16")
                 }
             >
@@ -36,19 +36,19 @@ export default function Drawer({ children }: DrawerProps) {
                         "relative w-full max-w-xs pb-10 flex flex-col space-y-6 overflow-y-scroll h-full "
                     }
                 >
-                    <header className="flex flex-row justify-between px-4 bg-zinc-800">
+                    <header className="flex flex-row justify-between px-4 bg-base-300">
                         <div className="pl-4 p-4">
                             {isOpen ? (
                                 <Link
                                     href="/"
-                                    className="text-emerald-600 font-bold text-lg"
+                                    className="text-primary font-bold text-lg"
                                 >
                                     Intellekta
                                 </Link>
                             ) : (
                                 <button
                                     onClick={() => setIsOpen(true)}
-                                    className="text-emerald-600 font-bold text-lg"
+                                    className="text-primary font-bold text-lg"
                                 >
                                     I
                                 </button>
@@ -57,9 +57,9 @@ export default function Drawer({ children }: DrawerProps) {
                         <button
                             hidden={!isOpen}
                             onClick={() => setIsOpen(false)}
-                            className="text-gray-600 hover:text-gray-700 focus:outline-none focus:text-gray-500"
+                            className="text-base-100 hover:text-gray-700 focus:outline-none focus:text-gray-500"
                         >
-                            <ChevronDoubleLeftIcon className="h-6 w-6 text-gray-600" />
+                            <ChevronDoubleLeftIcon className="h-6 w-6 text-base-100" />
                         </button>
                     </header>
                     <div className="flex flex-col px-4 gap-2">
@@ -91,8 +91,8 @@ export default function Drawer({ children }: DrawerProps) {
                         className={
                             "flex flex-row font-normal text-md p-2 " +
                             (isActive
-                                ? "p-2 px-4 rounded-lg hover:bg-emerald-600 bg-emerald-700 text-zinc-300"
-                                : "p-2 px-4 rounded-lg hover:bg-zinc-800 text-zinc-500")
+                                ? "p-2 px-4 rounded-lg hover:bg-emerald-700 bg-primary text-base-300"
+                                : "p-2 px-4 rounded-lg hover:bg-zinc-800 text-neutral")
                         }
                     >
                         <div>{item.name}</div>
@@ -103,8 +103,8 @@ export default function Drawer({ children }: DrawerProps) {
                         className={
                             "flex flex-row font-normal text-md p-2 justify-centre items-center" +
                             (isActive
-                                ? "p-4 rounded-lg hover:bg-emerald-600 bg-emerald-700 text-zinc-300"
-                                : "p-4 rounded-lg hover:bg-zinc-800 text-zinc-500")
+                                ? "p-4 rounded-lg hover:bg-emerald-600 bg-emerald-700 text-base-300"
+                                : "p-4 rounded-lg hover:bg-zinc-800 text-neutral")
                         }
                     >
                         <div className="">{item.name.slice(0, 1)}</div>

@@ -6,7 +6,7 @@ function Navbar({ title: string }) {
     const [navbar, setNavbar] = useState(false);
     return (
         <>
-            <nav className="w-full bg-zinc-900 shadow fixed">
+            <nav className="w-full fixed p-2">
                 <div className="justify-between px-4 mx-8 lg:max-w-7xl md:items-center md:flex md:px-8">
                     <div>
                         <div className="flex items-center justify-between py-3 md:py-5 md:block">
@@ -50,7 +50,7 @@ function Navbar({ title: string }) {
                     </div>
                     <div>
                         <div
-                            className={`flex-1 justify-self-center pb-3 mt-8 md:block md:pb-0 md:mt-0 ${
+                            className={`flex-1 justify-self-center mt-8 md:block md:pb-0 md:mt-0 ${
                                 navbar ? "block" : "hidden"
                             }`}
                         >
