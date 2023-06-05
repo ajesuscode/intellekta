@@ -19,8 +19,10 @@ export default function RootLayout({
                 <Suspense fallback="...">
                     {/* @ts-expect-error Server Component */}
                     <Navbar />
-                    <Drawer />
-                    <div className="pt-12">{children}</div>
+                    <div className="flex ">
+                        <Drawer />
+                        <div className="pt-12 flex pl-16">{children}</div>
+                    </div>
                 </Suspense>
             </body>
         </html>

@@ -17,9 +17,9 @@ export default function Drawer({ children }: DrawerProps) {
     return (
         <main
             className={
-                "fixed overflow-hidden z-10 inset-0 transform ease-in-out " +
+                "flex-0 overflow-hidden z-10 inset-0 transform ease-in-out" +
                 (isOpen
-                    ? "transition-all duration-500 transform translate-x-0 w-64"
+                    ? "transition-all duration-500 transform translate-x-0 w-52 h-screen"
                     : "transition-all duration-500 transform fixed w-16")
             }
         >

@@ -67,7 +67,7 @@ export default function Tutors() {
         </p>
     ));
     return (
-        <section className="p-10 pl-64">
+        <section className="p-10">
             <form onSubmit={getTutors}>
                 <div className="text-zinc-300 font-bold text-5xl">tutors</div>
                 <select
