@@ -17,10 +17,10 @@ export default function Drawer({ children }: DrawerProps) {
     return (
         <main
             className={
-                "flex-0 overflow-hidden z-10 inset-0 transform ease-in-out" +
+                "hidden md:block md:flex-0 md:overflow-hidden md:z-10 md:inset-0 transform ease-in-out" +
                 (isOpen
-                    ? "transition-all duration-500 transform translate-x-0 w-52 h-screen"
-                    : "transition-all duration-500 transform fixed w-16")
+                    ? "transition-all duration-500 transform translate-x-0 md:w-52 h-screen "
+                    : "transition-all duration-500 transform fixed w-16 ")
             }
         >
             <section
