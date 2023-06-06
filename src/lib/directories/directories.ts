@@ -4,6 +4,6 @@ export type Item = {
 };
 
 export const directories: Item[] = [
-    { name: "Tutors", path: "/tutors", slug: "tutors" },
+    { name: "Translate", path: "/translate", slug: "translate" },
     { name: "Chat", path: "/chat", slug: "chat" },
 ];

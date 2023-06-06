@@ -12,9 +12,8 @@ export async function POST(req: NextRequest) {
             maxTokens: 1000,
         });
         const body = await req.json();
-        const language = body.language;
         const native = body.native;
-        const template = `Act as a experienced ${language} tutor and answer on {input}. You must explain and respond in ${native} language. When user provide a single verb you responde with all possible conjunctions of this verb, translation into ${native} language and examples. When user provide ${language} phrase or centence you must translate it to ${native}. If user ask questions not related to ${language} laguage, respond with sorry emoji.`;
+        const template = `Detect {input} language. Translate input into ${native}.`;
         const prompt = new PromptTemplate({
             template: template,
             inputVariables: ["input"],
