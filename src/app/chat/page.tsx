@@ -1,69 +1,189 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
+import ReactMarkdown from "react-markdown";
+import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
+import { UserCircleIcon } from "@heroicons/react/24/outline";
+
+type Message = {
+    type: "apiMessage" | "userMessage";
+    message: string;
+    isStreaming?: boolean;
+};
 
 export default function Chat() {
     const [query, setQuery] = useState("");
-    const [result, setResult] = useState("");
+    const [messageState, setMessageState] = useState<{
+        messages: Message[];
+        pending?: string;
+        history: [string, string][];
+    }>({
+        messages: [
+            {
+                message: "Hi! I am Intellekta. How I can help you?",
+                type: "apiMessage",
+            },
+        ],
+        history: [],
+    });
+    const { messages, pending, history } = messageState;
     const [loading, setLoading] = useState(false);
 
-    async function getChat() {
+    const messageListRef = useRef<HTMLDivElement>(null);
+    const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+    // Auto scroll chat to bottom
+    useEffect(() => {
+        const messageList = messageListRef.current;
+        if (messageList) {
+            messageList.scrollTop = messageList.scrollHeight;
+        }
+    }, [messages]);
+
+    // Focus on text field on load
+    useEffect(() => {
+        textAreaRef.current?.focus();
+    }, []);
+
+    async function getChat(event: any) {
         event.preventDefault();
-        console.log(query);
+
+        const question = query.trim();
+        if (question === "") {
+            return;
+        }
 
         try {
+            setMessageState((state) => ({
+                ...state,
+                messages: [
+                    ...state.messages,
+                    {
+                        type: "userMessage",
+                        message: question,
+                    },
+                ],
+                pending: undefined,
+            }));
+
             setLoading(true);
-            if (query === "") {
-                setLoading(false);
-                return;
-            } else {
-                setQuery("");
-                const res = await fetch("/api/chat", {
-                    method: "POST",
-                    body: JSON.stringify(query),
-                });
-                const text = await res.json();
-                console.log(text);
-                setResult(text);
-                setLoading(false);
-            }
+            setQuery("");
+            setMessageState((state) => ({ ...state, pending: "" }));
+
+            const res = await fetch("/api/chat", {
+                method: "POST",
+                body: JSON.stringify({ question, history }),
+            });
+            const data = await res.json();
+            console.log(data);
+            setMessageState((state) => ({
+                history: [...state.history, question],
+                messages: [
+                    ...state.messages,
+                    {
+                        type: "apiMessage",
+                        message: data,
+                    },
+                ],
+                pending: undefined,
+            }));
+            setLoading(false);
         } catch (err) {
             console.log(err);
             setLoading(false);
         }
     }
 
-    const paragraphs = result.split("\n").map((paragraph, index) => (
-        <p key={index} className="mb-1">
-            {paragraph}
-        </p>
-    ));
-    return (
-        <div>
-            <form onSubmit={getChat}>
-                <div className="text-zinc-300 font-bold text-5xl">chat</div>;
-                <div className="flex flex-col w-96 py-2 flex-grow md:py-3 md:pl-4 relative border border-black/10 bg-white dark:border-gray-900/50 dark:text-white dark:bg-gray-700 rounded-md shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:shadow-[0_0_15px_rgba(0,0,0,0.10)]">
-                    <textarea
-                        className="m-0 w-full max-h-48 overflow-y-hidden h-8 resize-none border-0 bg-transparent p-0 pr-7 focus:ring-0 focus:outline-none dark:bg-transparent pl-2 md:pl-0"
-                        onChange={(e) => setQuery(e.target.value)}
-                        placeholder="Enter your text"
-                        value={query}
-                    ></textarea>
-                    <button
-                        className="bg-emerald-500 absolute p-1 rounded-md text-zinc-300 bottom-1 md:bottom-2.5 hover:bg-emerald-700 enabled:dark:hover:text-gray-400 dark:hover:bg-emerald-700 disabled:hover:bg-transparent dark:disabled:hover:bg-transparent right-1 md:right-2 disabled:opacity-40"
-                        type="submit"
-                    >
-                        answer
-                    </button>
-                </div>
-            </form>
+    const handleEnter = (e: any) => {
+        if (e.key === "Enter" && query) {
+            if (!e.shiftKey && query) {
+                getChat(e);
+            }
+        } else if (e.key === "Enter") {
+            e.preventDefault();
+        }
+    };
 
-            {paragraphs && (
-                <div className="flex flex-col bg-zinc-800 shadow-md rounded-lg max-w-lg p-4 mt-8">
-                    <div className="text-xs text-emerald-500 font-medium">
-                        {paragraphs}
+    const chatMessages = useMemo(() => {
+        return [
+            ...messages,
+            ...(pending ? [{ type: "apiMessage", message: pending }] : []),
+        ];
+    }, [messages, pending]);
+
+    return (
+        <section className="relative w-full h-full transition-width flex flex-col overflow-hidden items-stretch flex-1">
+            <div
+                ref={messageListRef}
+                className="bg-base-200/25 shadow-lg p-8 rounded-lg  overflow-y-auto relative mb-32"
+            >
+                {chatMessages.map((message, index) => {
+                    let icon;
+                    let bubble;
+
+                    if (message.type === "apiMessage") {
+                        icon = (
+                            <UserCircleIcon className="w-10 h-10 text-secondary" />
+                        );
+                        bubble = (
+                            <div className="chat-bubble bg-secondary/50">
+                                <ReactMarkdown linkTarget="_blank">
+                                    {message.message}
+                                </ReactMarkdown>
+                            </div>
+                        );
+                    } else {
+                        icon = (
+                            <UserCircleIcon className="w-10 h-10 text-primary" />
+                        );
+                        bubble = (
+                            <div className="chat-bubble bg-primary/50">
+                                <ReactMarkdown linkTarget="_blank">
+                                    {message.message}
+                                </ReactMarkdown>
+                            </div>
+                        );
+                    }
+
+                    return (
+                        <div key={index} className="chat chat-start">
+                            <div className="chat-image avatar">{icon}</div>
+                            {bubble}
+                        </div>
+                    );
+                })}
+            </div>
+            <div className="absolute bottom-0 left-0 w-full border-t md:border-t-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:bg-vert-light-gradient bg-white dark:bg-gray-800 md:!bg-transparent dark:md:bg-vert-dark-gradient pt-2">
+                <form
+                    className="stretch mx-2 flex flex-row gap-3 last:mb-2 md:mx-4 md:last:mb-6 lg:mx-auto lg:max-w-2xl xl:max-w-3xl"
+                    onSubmit={getChat}
+                >
+                    <div className="relative flex h-full flex-1 items-stretch md:flex-col shadow-lg rounded-lg flex-row justify-between">
+                        <div className="flex p-2 bg-base-200 rounded-lg shadow-lg">
+                            <textarea
+                                className="textarea resize-none bg-base-200 w-full pl-4 pr-10 rounded-lg"
+                                onKeyDown={handleEnter}
+                                onChange={(e) => setQuery(e.target.value)}
+                                placeholder={
+                                    loading
+                                        ? "Please wait..."
+                                        : "Ask Intellekta here..."
+                                }
+                                value={query}
+                                ref={textAreaRef}
+                            ></textarea>
+                        </div>
+                        <div className="flex">
+                            <button className="btn btn-sm btn-secondary absolute p-2 right-3 self-center bottom-7 rounded-md md:p-2 text-white transition-colors disabled:opacity-40">
+                                {loading ? (
+                                    <span className="loading loading-dots loading-xs"></span>
+                                ) : (
+                                    <PaperAirplaneIcon className="w-4 h-4" />
+                                )}
+                            </button>
+                        </div>
                     </div>
-                </div>
-            )}
-        </div>
+                </form>
+            </div>
+        </section>
     );
 }
