@@ -8,7 +8,8 @@ export async function POST(req: NextRequest) {
     try {
         const model = new OpenAI({
             openAIApiKey: process.env.OPENAI_API_KEY,
-            temperature: 0.9,
+            modelName: "gpt-3.5-turbo",
+            temperature: 0.7,
             maxTokens: 1000,
         });
         const body = await req.json();
