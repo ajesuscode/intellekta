@@ -27,42 +27,6 @@ export async function POST(req: NextRequest) {
             maxTokens: 1000,
         });
 
-        //query search function utilizing serper.dev
-        // async function getSearchResult() {
-        //     try {
-        //         let data = JSON.stringify({
-        //             q: body.query,
-        //         });
-        //         let config = {
-        //             method: "post",
-        //             url: "https://google.serper.dev/search",
-        //             headers: {
-        //                 "X-API-KEY": "72c4402a87d287368aeb1b0210575ab0b1e76404",
-        //                 "Content-Type": "application/json",
-        //             },
-        //             data: data,
-        //         };
-
-        //         const response = await axios(config);
-        //         return JSON.stringify(response.data);
-        //     } catch (error) {
-        //         console.log("Axios Error:", error);
-
-        //         // Generate an appropriate error response
-        //         let errorMessage = "An error occurred";
-        //         let statusCode = 500;
-
-        //         // Check if the error response contains specific information
-        //         if (error.response) {
-        //             errorMessage = error.response.data.message;
-        //             statusCode = error.response.status;
-        //         }
-
-        //         // Return the error response to the client
-        //         return JSON.stringify({ errorMessage, statusCode });
-        //     }
-        // }
-
         //calling intilized function
         const response = await serperSearch(body.query);
         //defining template with Langchain
