@@ -1,13 +1,31 @@
 "use client";
 import React, { ChangeEvent, useCallback, useState, useEffect } from "react";
+import { TrashIcon } from "@heroicons/react/24/outline";
+import { PlusCircleIcon } from "@heroicons/react/24/outline";
+import { load } from "cheerio";
 
 interface Template {
     id: number;
-    name: string;
-    style: string;
+    theme: string;
+    language: string;
     content: string;
     response?: string;
 }
+interface Alert {
+    text: string;
+}
+
+const languages: string[] = [
+    "English",
+    "Spanish",
+    "French",
+    "German",
+    "Italian",
+    "Japanese",
+    "Chinese",
+    "Ukrainian",
+    // Add more languages as needed
+];
 
 const AddTemplateButton: React.FC = () => {
     const [templates, setTemplates] = useState<Template[]>(() => {
@@ -15,6 +33,8 @@ const AddTemplateButton: React.FC = () => {
         const savedTemplates = localStorage.getItem("templates");
         return savedTemplates ? JSON.parse(savedTemplates) : [];
     });
+    const [loading, setLoading] = useState(false);
+    const [alert, setAlert] = useState<Alert>("");
 
     useEffect(() => {
         // Save templates to localStorage whenever they change
@@ -24,8 +44,8 @@ const AddTemplateButton: React.FC = () => {
     const handleAddTemplate = useCallback(() => {
         const newTemplate: Template = {
             id: Date.now(),
-            name: "",
-            style: "",
+            theme: "",
+            language: "",
             content: "",
         };
 
@@ -54,6 +74,14 @@ const AddTemplateButton: React.FC = () => {
 
     const handleCreateEmail = useCallback(async (template: Template) => {
         try {
+            if (template.content === "") {
+                setAlert("You didnt wrote anything");
+                setTimeout(function () {
+                    setAlert("");
+                }, 3000);
+                return;
+            }
+            setLoading(true);
             const response = await fetch("api/emails", {
                 method: "POST",
                 headers: {
@@ -61,7 +89,8 @@ const AddTemplateButton: React.FC = () => {
                 },
                 body: JSON.stringify({
                     id: template.id,
-                    style: template.style,
+                    theme: template.theme,
+                    language: template.language,
                     content: template.content,
                 }),
             });
@@ -74,48 +103,95 @@ const AddTemplateButton: React.FC = () => {
                     t.id === template.id ? { ...t, response: data } : t
                 )
             );
+            setLoading(false);
         } catch (error) {
             console.error("Failed to create email:", error);
         }
     }, []);
 
-    console.log(templates);
+    const handleDeleteTemplate = useCallback((id: number) => {
+        setTemplates((prevTemplates) =>
+            prevTemplates.filter((template) => template.id !== id)
+        );
+        localStorage.setItem(
+            "templates",
+            JSON.stringify(templates.filter((template) => template.id !== id))
+        );
+    }, []);
 
+    console.log(templates);
     return (
-        <div className="relative flex flex-col min-h-screen bg-base-200/50 rounded-lg p-4">
+        <div className="w-full h-full relative flex flex-col overflow-y-auto bg-base-200/50 rounded-lg">
+            {alert && (
+                <div className="alert alert-warning">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="stroke-current shrink-0 h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                        />
+                    </svg>
+                    <span>{alert}</span>
+                </div>
+            )}
             <button
-                className="px-4 py-2 btn btn-secondary btn-sm fixed lg:top-16 lg:right-16 m-4 top-10 right-6"
+                className="p-1 btn btn-secondary btn-sm fixed lg:top-16 lg:right-16 m-4 top-10 right-6"
                 onClick={handleAddTemplate}
             >
-                Add Email Template
+                <div
+                    className="tooltip tooltip-left text-xs lowercase font-light"
+                    data-tip="add new email template"
+                >
+                    <PlusCircleIcon className="w-6 h-6 text-base-100" />
+                </div>
             </button>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-1 lg:grid-cols-2 mt-10">
+
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-1 lg:grid-cols-2 mt-10 p-4">
                 {templates.map((template) => (
                     <div
                         key={template.id}
                         className="p-4 bg-base-100 rounded-md shadow-lg"
                     >
-                        <div className="flex flex-row justify-between gap-4">
+                        <div className="flex flex-row justify-between gap-4 items-center">
                             <input
-                                className="input input-ghost w-full p-2 mb-2 max-w-xs text-xl font-bold"
-                                placeholder="Enter your template name"
+                                className="input input-ghost w-full p-2 mb-2 max-w-xs text-xl font-bold lg:text-3xl"
+                                placeholder="Your template name"
                                 value={template.name}
                                 onChange={(e) =>
                                     handleInputChange(template.id, "name", e)
                                 }
                             />
                             <select
-                                className="select w-32 max-w-xs p-2 mb-4 bg-neutral"
-                                value={template.style}
+                                className="select select-sm w-32 max-w-xs mb-4 bg-neutral"
+                                value={template.language}
                                 onChange={(e) =>
-                                    handleInputChange(template.id, "style", e)
+                                    handleInputChange(
+                                        template.id,
+                                        "language",
+                                        e
+                                    )
                                 }
                             >
-                                <option value="">Email Style</option>
-                                <option value="formal">Formal</option>
-                                <option value="friendly">Friendly</option>
-                                {/* Add more styles as needed */}
+                                {languages.map((lang, index) => (
+                                    <option key={index} value={lang}>
+                                        {lang}
+                                    </option>
+                                ))}
                             </select>
+                            <div
+                                className="btn btn-sm mb-4"
+                                onClick={() =>
+                                    handleDeleteTemplate(template.id)
+                                }
+                            >
+                                <TrashIcon className="w-4 h-4" />
+                            </div>
                         </div>
 
                         <textarea
@@ -127,15 +203,32 @@ const AddTemplateButton: React.FC = () => {
                             }
                         />
                         {template.response && (
-                            <p className="pb-6 text-base">
-                                {template.response}
-                            </p>
+                            <div
+                                tabIndex={0}
+                                className="collapse border border-base-300 bg-base-200 mb-4"
+                            >
+                                <div className="collapse-title text-lg font-normal">
+                                    {template.response.split("\n").shift()}
+                                </div>
+                                <div className="collapse-content">
+                                    <p>{template.response}</p>
+                                </div>
+                            </div>
                         )}
+
                         <button
+                            disabled={loading}
                             className="btn btn-primary btn-outline btn-md"
                             onClick={() => handleCreateEmail(template)}
                         >
-                            Generate Email
+                            {loading ? (
+                                <>
+                                    <span>I am writing</span>
+                                    <span className="loading loading-dots loading-md"></span>
+                                </>
+                            ) : (
+                                <span>Generate Email</span>
+                            )}
                         </button>
                     </div>
                 ))}

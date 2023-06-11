@@ -111,7 +111,7 @@ export default function Chat() {
     }, [messages, pending]);
 
     return (
-        <section className="relative w-full h-full transition-width flex flex-col overflow-hidden items-stretch flex-1">
+        <section className="relative w-full h-full transition-width flex flex-col overflow-hidden items-stretch flex-1 p-10">
             <div
                 ref={messageListRef}
                 className="bg-base-200/25 shadow-lg p-8 rounded-lg  overflow-y-auto relative mb-32"
