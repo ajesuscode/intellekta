@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import ThemeToggler from "./ThemeToggler";
 
 function Navbar({ title: string }) {
     const [navbar, setNavbar] = useState(false);
@@ -54,14 +55,7 @@ function Navbar({ title: string }) {
                                 navbar ? "block" : "hidden"
                             }`}
                         >
-                            <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
-                                <li className="text-white">
-                                    <Link href="/tutors">Tutors</Link>
-                                </li>
-                                <li className="text-white">
-                                    <Link href="/chat">Chat</Link>
-                                </li>
-                            </ul>
+                            <ThemeToggler />
                         </div>
                     </div>
                 </div>
