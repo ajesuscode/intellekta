@@ -12,6 +12,7 @@ const languages: string[] = [
     "Japanese",
     "Chinese",
     "Ukrainian",
+    "Basque",
     // Add more languages as needed
 ];
 

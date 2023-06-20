@@ -8,13 +8,13 @@ export async function POST(req: NextRequest) {
     try {
         const model = new OpenAI({
             openAIApiKey: process.env.OPENAI_API_KEY,
-            modelName: "gpt-3.5-turbo",
-            temperature: 0.7,
+            modelName: "gpt-4",
+            temperature: 0,
             maxTokens: 1000,
         });
         const body = await req.json();
         const native = body.native;
-        const template = `Detect {input} language. Translate input into ${native}.`;
+        const template = `You will be provided with word, phrase or sentence. You need to detect what is the language of << {input} >>. Responde only with translation of input into ${native}.`;
         const prompt = new PromptTemplate({
             template: template,
             inputVariables: ["input"],
