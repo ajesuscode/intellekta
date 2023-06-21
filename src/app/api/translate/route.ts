@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     try {
         const model = new OpenAI({
             openAIApiKey: process.env.OPENAI_API_KEY,
-            modelName: "gpt-4",
+            modelName: "gpt-4-0613",
             temperature: 0,
             maxTokens: 1000,
         });

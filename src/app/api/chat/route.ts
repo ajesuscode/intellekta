@@ -16,14 +16,14 @@ export async function POST(req: NextRequest) {
         console.log(body);
 
         const chat = new ChatOpenAI({
-            modelName: "gpt-3.5-turbo",
+            modelName: "gpt-3.5-turbo-16k-0613",
             openAIApiKey: process.env.OPENAI_API_KEY,
-            temperature: 0.9,
-            maxTokens: 1000,
+            temperature: 0,
+            maxTokens: 2048,
         });
         const chatPrompt = ChatPromptTemplate.fromPromptMessages([
             SystemMessagePromptTemplate.fromTemplate(
-                "Anlways tespond in Markdown format."
+                "You are phD level story extractor"
             ),
             new MessagesPlaceholder("history"),
             HumanMessagePromptTemplate.fromTemplate("{input}"),

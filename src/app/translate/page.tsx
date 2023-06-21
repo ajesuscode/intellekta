@@ -72,7 +72,11 @@ export default function Translate() {
                 <textarea
                     className="textarea textarea-bordered w-full resize-none text-lg shadow-md"
                     onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Ai will detect your text here"
+                    placeholder={
+                        loading
+                            ? "Detecting langiage...Translating"
+                            : "Paste text here and Ai will detect language"
+                    }
                     disabled={loading}
                     value={query}
                 ></textarea>
@@ -81,7 +85,11 @@ export default function Translate() {
                     className="btn btn-secondary btn-sm btn-outline w-36 disabled:opacity-40"
                     type="submit"
                 >
-                    translate
+                    {loading ? (
+                        <span className="loading loading-dots loading-xs"></span>
+                    ) : (
+                        <span>translate</span>
+                    )}
                 </button>
 
                 <select
