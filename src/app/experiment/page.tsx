@@ -1,40 +1,47 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { parseJsonArray } from "../utils/parse";
+import { type } from "os";
 
 export default function ExperimentPage() {
     const [result, setResult] = useState([]);
     const [query, setQuery] = useState("");
     const [chatHistory, setChatHistory] = useState([]);
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     async function getExperiments() {
-        const res = await fetch("api/experiment", {
-            method: "POST",
-            body: JSON.stringify({ query }),
-        });
-        const data = await res.json();
-        if (data.error) {
-            setError(data.error);
-        } else {
-            console.log(data);
-            setResult(data);
+        try {
+            if (query === "") {
+                setError("Provide theme to extract");
+                return;
+            } else {
+                setQuery("");
+                setLoading(true);
+                const res = await fetch("api/experiment", {
+                    method: "POST",
+                    body: JSON.stringify({ query }),
+                });
+                const data = await res.json();
+
+                if (data.error) {
+                    setError(data.error);
+                    setLoading(false);
+                } else {
+                    console.log(data);
+                    setResult(parseJsonArray(data));
+                    setLoading(false);
+                }
+            }
+        } catch (err) {
+            setError(err);
         }
     }
-
-    // const lists = result.split("\n").map((list, index) => (
-    //     <Link
-    //         key={index}
-    //         className="mb-2 flex text-secondary"
-    //         href={list.substring(3)}
-    //     >
-    //         {list}
-    //     </Link>
-    // ));
     console.log(result);
 
     return (
-        <div className="flex flex-col justify-center">
+        <div className="flex flex-col h-full">
             {error && (
                 <div
                     className="alert alert-error"
@@ -56,32 +63,46 @@ export default function ExperimentPage() {
                     <span>Error! {error}</span>
                 </div>
             )}
-            <h2 className="text-2xl font-black ">
+            <h2 className="text-2xl font-black pb-8">
                 This is experimental Page for testing Langchain Approaches
             </h2>
             <textarea
-                className="textarea textarea-lg"
+                className="textarea textarea-bordered max-h-8 mb-8"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
+                placeholder="Theme to extract"
             ></textarea>
+
             <button
-                className="btn btn-lg btn-secondary"
+                className="btn btn-secondary btn-sm w-24"
                 onClick={getExperiments}
             >
-                SEND
-            </button>
-            <div>
-                {result && (
-                    <div className="flex flex-col bg-base-300 pt-8 rounded-md px-4"></div>
+                {loading ? (
+                    <span className="loading loading-infinity loading-lg "></span>
+                ) : (
+                    <span>RESEARCH</span>
                 )}
-                {result.map((res, index) => (
-                    <div
-                        key={index}
-                        className="flex flex-col bg-base-300 pt-8 rounded-md px-4"
-                    >
-                        {res}
+            </button>
+
+            <div className="max-h-md overflow-y-auto mt-8">
+                {result.length !== 0 && (
+                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 ">
+                        {result.map((item, index) => (
+                            <div
+                                key={index}
+                                className=" flex flex-col mt-4 bg-base-200 rounded-lg p-4 gap-2 shadow-md"
+                            >
+                                <a
+                                    href={item.link}
+                                    target="_blank"
+                                    className="text-xl font-bold text-secondary"
+                                >
+                                    {item.company}
+                                </a>
+                            </div>
+                        ))}
                     </div>
-                ))}
+                )}
             </div>
         </div>
     );
