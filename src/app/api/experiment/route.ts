@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { OpenAI } from "langchain/llms/openai";
+import { ChatOpenAI } from "langchain/chat_models/openai";
 import { BufferMemory } from "langchain/memory";
 import { ConversationChain } from "langchain/chains";
 import { ChatMessageHistory } from "langchain/memory";
 import { HumanChatMessage, AIChatMessage } from "langchain/schema";
 import { PromptTemplate } from "langchain/prompts";
+import {
+    StructuredOutputParser,
+    OutputFixingParser,
+} from "langchain/output_parsers";
 import { initializeAgentExecutorWithOptions } from "langchain/agents";
 import { LLMChain } from "langchain/chains";
 import { CheerioWebBaseLoader } from "langchain/document_loaders/web/cheerio";
@@ -29,6 +34,7 @@ export async function POST(req: NextRequest) {
 
         //calling intilized function
         const response = await serperSearch(body.query);
+
         //defining template with Langchain
         const template =
             "Extract urls into a numbered list format from {response}. Above is a search result for a {query}";
@@ -97,7 +103,6 @@ export async function POST(req: NextRequest) {
                 const output = await splitter.splitDocuments(doc);
                 results.push(output);
             }
-
             return results;
         };
 
@@ -107,7 +112,7 @@ export async function POST(req: NextRequest) {
         const ideas = async () => {
             let ideas = [];
             const ideasTemplate =
-                "You are a world class experienced investor. Analyze this information: {chunks}. Then follow this rules: Create one sentence summary.";
+                "Analyze this information: {chunks} on phD level. Then follow this rules: 1.Create list of mentioned companies and links to them if possible. 2.Provide responde in valid json format like this example: company: company name, link: full url string";
             const ideasPromptTemplate = new PromptTemplate({
                 template: ideasTemplate,
                 inputVariables: ["chunks"],
@@ -117,6 +122,7 @@ export async function POST(req: NextRequest) {
                 prompt: ideasPromptTemplate,
                 verbose: true,
             });
+
             for (const idea of chunks) {
                 if (idea && idea.length && idea[0].pageContent) {
                     const pageContent = idea[0].pageContent;
@@ -130,6 +136,7 @@ export async function POST(req: NextRequest) {
         };
 
         const idea = await ideas();
+        console.log("RAAAWWWW", idea);
 
         return NextResponse.json(idea);
     } catch (err) {

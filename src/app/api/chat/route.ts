@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { StreamingTextResponse, LangChainStream, Message } from "ai";
+import { CallbackManager } from "langchain/callbacks";
+import { AIChatMessage, HumanChatMessage } from "langchain/schema";
 import { ConversationChain } from "langchain/chains";
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import {
@@ -12,39 +15,27 @@ import { BufferMemory } from "langchain/memory";
 
 export async function POST(req: NextRequest) {
     try {
-        const body = await req.json();
-        console.log(body);
+        const { messages } = await req.json();
+        const { stream, handlers } = LangChainStream();
 
-        const chat = new ChatOpenAI({
-            modelName: "gpt-3.5-turbo-16k-0613",
+        const llm = new ChatOpenAI({
             openAIApiKey: process.env.OPENAI_API_KEY,
-            temperature: 0,
-            maxTokens: 2048,
-        });
-        const chatPrompt = ChatPromptTemplate.fromPromptMessages([
-            SystemMessagePromptTemplate.fromTemplate(
-                "You are phD level story extractor"
-            ),
-            new MessagesPlaceholder("history"),
-            HumanMessagePromptTemplate.fromTemplate("{input}"),
-        ]);
-
-        console.log("CHAT PROMPT", chatPrompt);
-        const chain = new ConversationChain({
-            memory: new BufferMemory({
-                returnMessages: true,
-                memoryKey: "history",
-            }),
-            prompt: chatPrompt,
-            llm: chat,
+            modelName: "gpt-3.5-turbo",
+            temperature: 0.7,
+            maxTokens: 1000,
+            streaming: true,
+            callbackManager: CallbackManager.fromHandlers(handlers),
         });
 
-        console.log("CHAIN OBJECT", chain);
-        const res = await chain.call({
-            input: body.question,
-        });
-        console.log(res);
-        return NextResponse.json(res.response);
+        llm.call(
+            (messages as Message[]).map((m) =>
+                m.role == "user"
+                    ? new HumanChatMessage(m.content)
+                    : new AIChatMessage(m.content)
+            )
+        ).catch(console.error);
+
+        return new StreamingTextResponse(stream);
     } catch (err) {
         throw new Error(err);
     }
