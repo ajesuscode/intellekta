@@ -9,4 +9,5 @@ export const directories: Item[] = [
     { name: "Chat", path: "/chat", slug: "chat" },
     { name: "Emails", path: "/emails", slug: "emails" },
     { name: "Experiment", path: "/experiment", slug: "experiment" },
+    { name: "Tutor", path: "/tutor", slug: "tutor" },
 ];
