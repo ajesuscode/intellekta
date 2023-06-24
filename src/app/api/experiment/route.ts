@@ -15,7 +15,7 @@ import { LLMChain } from "langchain/chains";
 import { CheerioWebBaseLoader } from "langchain/document_loaders/web/cheerio";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import axios from "axios";
-import { serperSearch } from "@/app/utils/serperSearch";
+import { serperSearch } from "@/utils/serperSearch";
 
 export async function POST(req: NextRequest) {
     try {

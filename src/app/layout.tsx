@@ -1,6 +1,6 @@
-import Drawer from "./components/Drawer";
+import Drawer from "@/components/Drawer";
 import { Suspense } from "react";
-import Navbar from "./components/Navbar";
+import Navbar from "@/components/Navbar";
 import Providers from "./providers";
 import "./globals.css";
 

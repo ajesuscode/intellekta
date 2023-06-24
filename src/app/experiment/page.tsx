@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { parseJsonArray } from "../utils/parse";
+import { parseJsonArray } from "../../utils/parse";
 import { type } from "os";
 
 export default function ExperimentPage() {
