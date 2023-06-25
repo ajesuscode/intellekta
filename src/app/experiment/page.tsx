@@ -41,7 +41,7 @@ export default function ExperimentPage() {
     console.log(result);
 
     return (
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full font-body">
             {error && (
                 <div
                     className="alert alert-error"
@@ -63,8 +63,8 @@ export default function ExperimentPage() {
                     <span>Error! {error}</span>
                 </div>
             )}
-            <h2 className="text-2xl font-black pb-8">
-                This is experimental Page for testing Langchain Approaches
+            <h2 className="text-2xl font-black pb-8 font-display">
+                Experimental analysys of provided theme
             </h2>
             <textarea
                 className="textarea textarea-bordered max-h-8 mb-8"

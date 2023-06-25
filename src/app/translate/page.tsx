@@ -66,11 +66,11 @@ export default function Translate() {
         </p>
     ));
     return (
-        <section className="p-10 flex flex-col gap-8">
+        <section className="pt-16 lg:px-48 px-12 md:px-20 flex flex-col gap-8">
             <form onSubmit={getTranslation} className="flex flex-col gap-8">
-                <div className="text-xl font-bold">Type any language</div>
+                <div className="text-xl font-display">translator</div>
                 <textarea
-                    className="textarea textarea-bordered w-full resize-none text-lg shadow-md"
+                    className="textarea textarea-bordered w-full resize-none text-lg shadow-md font-body"
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder={
                         loading
@@ -82,7 +82,7 @@ export default function Translate() {
                 ></textarea>
                 <button
                     disabled={loading}
-                    className="btn btn-secondary btn-sm btn-outline w-36 disabled:opacity-40"
+                    className="btn btn-secondary btn-sm btn-outline w-36 disabled:opacity-40 font-body"
                     type="submit"
                 >
                     {loading ? (
@@ -93,7 +93,7 @@ export default function Translate() {
                 </button>
 
                 <select
-                    className="w-36 rounded-lg select select-bordered select-sm select-primary"
+                    className="w-36 rounded-lg select select-bordered select-sm select-primary font-body"
                     value={native}
                     onChange={handleNativeChange}
                 >
@@ -104,8 +104,10 @@ export default function Translate() {
                     ))}
                 </select>
                 {paragraphs && (
-                    <div className="card w-full h-64 overflow-y-hidden max-h-lg flex flex-col bg-zinc-800 shadow-md rounded-lg p-4 relative">
-                        <div className="text-lg text-primary">{paragraphs}</div>
+                    <div className="card w-full h-full max-h-sm overflow-y-auto max-h-lg flex flex-col bg-zinc-800 shadow-md rounded-lg p-4 relative">
+                        <div className="text-lg text-primary font-body">
+                            {paragraphs}
+                        </div>
                         <button
                             onClick={() => copyToClipboard(result)}
                             className="absolute top-0 right-0 m-2 p-2 btn btn-ghost btn-square btn-sm"

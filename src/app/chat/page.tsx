@@ -30,7 +30,7 @@ export default function Chat() {
     }, []);
 
     return (
-        <section className="relative w-full h-full transition-width flex flex-col overflow-hidden items-stretch flex-1 p-10">
+        <section className="relative w-full h-full transition-width flex flex-col overflow-hidden items-stretch flex-1 p-10 font-body">
             <div
                 ref={messageListRef}
                 className="bg-base-200/25 shadow-lg p-8 rounded-lg  overflow-y-auto relative mb-32"

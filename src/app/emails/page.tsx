@@ -121,9 +121,9 @@ const AddTemplateButton: React.FC = () => {
 
     console.log(templates);
     return (
-        <div className="w-full h-full relative flex flex-col overflow-y-auto bg-base-200/50 rounded-lg">
+        <div className="w-full h-full relative flex flex-col overflow-y-auto bg-base-200/50 rounded-lg ">
             {alert && (
-                <div className="alert alert-warning">
+                <div className="alert alert-warning font-body">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="stroke-current shrink-0 h-6 w-6"
@@ -152,7 +152,7 @@ const AddTemplateButton: React.FC = () => {
                 </div>
             </button>
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-1 lg:grid-cols-2 mt-10 p-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-1 lg:grid-cols-2 mt-10 p-4 font-body">
                 {templates.map((template) => (
                     <div
                         key={template.id}
@@ -160,7 +160,7 @@ const AddTemplateButton: React.FC = () => {
                     >
                         <div className="flex flex-row justify-between gap-4 items-center">
                             <input
-                                className="input input-ghost w-full p-2 mb-2 max-w-xs text-xl font-bold lg:text-3xl"
+                                className="input input-ghost w-full p-2 mb-2 max-w-xs text-lg font-bold lg:text-xl font-display"
                                 placeholder="Your template name"
                                 value={template.name}
                                 onChange={(e) =>

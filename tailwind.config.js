@@ -6,7 +6,12 @@ module.exports = {
         "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     ],
     theme: {
-        extend: {},
+        extend: {
+            fontFamily: {
+                display: ["Station"],
+                body: ["Satoshi"],
+            },
+        },
     },
     plugins: [require("daisyui")],
     daisyui: {

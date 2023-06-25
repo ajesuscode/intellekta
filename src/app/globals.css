@@ -1,3 +1,12 @@
+@font-face {
+    font-family: "Station";
+    src: url("../../public/fonts/GeneraleStationGX.ttf");
+}
+@font-face {
+    font-family: "Satoshi";
+    src: url("../../public/fonts/Satoshi-Variable.ttf");
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

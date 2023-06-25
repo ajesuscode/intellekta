@@ -41,16 +41,16 @@ export default function Drawer({ children }: DrawerProps) {
                             {isOpen ? (
                                 <Link
                                     href="/"
-                                    className="text-primary font-bold text-lg"
+                                    className="text-primary text-sm font-display lowercase tracking-widest"
                                 >
                                     Intellekta
                                 </Link>
                             ) : (
                                 <button
                                     onClick={() => setIsOpen(true)}
-                                    className="text-primary font-bold text-lg"
+                                    className="text-primary font-display text-lg"
                                 >
-                                    I
+                                    i
                                 </button>
                             )}
                         </div>
@@ -89,7 +89,7 @@ export default function Drawer({ children }: DrawerProps) {
                     <Link
                         href={`${item.path}`}
                         className={
-                            "flex flex-row font-normal text-md p-2 " +
+                            "flex flex-row font-body text-md p-2 " +
                             (isActive
                                 ? "p-2 px-4 rounded-lg hover:bg-emerald-700 bg-primary text-base-300"
                                 : "p-2 px-4 rounded-lg hover:bg-zinc-800 text-neutral")
@@ -101,7 +101,7 @@ export default function Drawer({ children }: DrawerProps) {
                     <Link
                         href={`${item.path}`}
                         className={
-                            "flex flex-row font-normal text-md p-2 justify-centre items-center" +
+                            "flex flex-row font-normal text-md p-2 justify-centre items-center font-body" +
                             (isActive
                                 ? "p-4 rounded-lg hover:bg-emerald-600 bg-emerald-700 text-base-300"
                                 : "p-4 rounded-lg hover:bg-zinc-800 text-neutral")
