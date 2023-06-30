@@ -121,7 +121,7 @@ const AddTemplateButton: React.FC = () => {
 
     console.log(templates);
     return (
-        <div className="w-full h-full relative flex flex-col overflow-y-auto bg-base-200/50 rounded-lg ">
+        <div className="w-full h-full relative flex flex-col overflow-y-auto bg-base-200/50 rounded-lg pt-8">
             {alert && (
                 <div className="alert alert-warning font-body">
                     <svg
@@ -141,7 +141,7 @@ const AddTemplateButton: React.FC = () => {
                 </div>
             )}
             <button
-                className="p-1 btn btn-secondary btn-sm fixed lg:top-16 lg:right-16 m-4 top-10 right-6"
+                className="p-1 btn btn-secondary btn-sm fixed top-16 lg:right-16 m-4 right-6"
                 onClick={handleAddTemplate}
             >
                 <div

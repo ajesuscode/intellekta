@@ -8,32 +8,40 @@ export async function POST(req: NextRequest) {
         console.log(body);
         const model = new OpenAIChat({
             openAIApiKey: process.env.OPENAI_API_KEY,
-            modelName: "gpt-3.5-turbo-0613",
+            modelName: "gpt-3.5-turbo",
             temperature: 0,
-            maxTokens: 1000,
+            maxTokens: 300,
         });
         const promptNames = ["grammar", "nouns", "verbs"];
         const promptDescriptions = [
-            "Good for answering about language grammar rules and constructions",
+            "Only provides language grammar correction",
             "Good for answering everything about nouns",
             "Good for answering everything about verbs conjunctions",
         ];
-        const grammarTemplate = `You are a very smart linguistic professor. You are great at answering questions about grammar in a concise and easy to understand manner. When you don't know the answer to a question you admit that you don't know. Respond in a user input language.
+        const grammarTemplate = `You are language professor. You must correct grammar mistakes if they are. If there ane no mistakes in user input, answer "OK". Provide only correction. Dont write descriptions. Dont answer questions. User input will be inside ####
 
-Here is a question:
+Here is a phrase: ####
 {input}
+####
+Correct response:
 `;
-        const nounTemplate = `You are a very smart world dictionary. You are great at explaining anything about nouns. Respond in user input language. When user provides a noun you responde with this markdown language format: NOUN:deatailed explanations of the noun meaning,
+        const nounTemplate = `You are a very smart world dictionary. User will provide you a noun. You must respond in user input language. When user provides a single noun you responde with this markdown language format: NOUN:deatailed explanations of the noun meaning,
         SYNONYM: five synonyms,
         ANTONYM: five antonyms
+        User input will be inside ####
 
 Here is a noun:
-{input}`;
+####
+{input}
+####
+`;
 
         const verbTemplate = `You are a very smart professor of verbs. You are great at conjunction of any verbs in the world. When user provides you a verb, you need to conjug it in 9 different tenses including present, past and future. Respond in user input language. Follow this format example: TENSE NAME:\n I verb, You verb, and so on
-
+        User input will be inside ####
 Here is a verb:
+####
 {input}
+####
 Your response in 8 different tenses:
 `;
 

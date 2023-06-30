@@ -41,7 +41,7 @@ export default function ExperimentPage() {
     console.log(result);
 
     return (
-        <div className="flex flex-col h-full font-body">
+        <div className="flex flex-col h-full font-body pt-12 lg:px-12">
             {error && (
                 <div
                     className="alert alert-error"

@@ -18,7 +18,7 @@ export default function ThemeToggler() {
     console.log(resolvedTheme);
 
     return (
-        <div className="flex flex-row gap-4 justify-center items-center">
+        <div className="flex flex-row gap-4 justify-end items-center p-2">
             <input
                 type="checkbox"
                 className="toggle toggle-sm dark:toggle-secondary toggle-primary"
