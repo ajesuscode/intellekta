@@ -32,7 +32,7 @@ export default function Tutor() {
         </p>
     ));
     return (
-        <div className="h-full p-8 mx-auto flex flex-col gap-4 pt-16 lg:px-48 px-12 md:px-20">
+        <div className="h-full pt-8 px-4 mx-auto flex flex-col gap-4  lg:px-48 md:px-20">
             <span className="text-primary font-display">TUTOR PAGE</span>
             <span className="text-sm font-body">
                 - Paste phrase or sentence and I will correct it gramatically

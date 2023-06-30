@@ -2,15 +2,17 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import ThemeToggler from "./ThemeToggler";
+import Drawer from "./Drawer";
+import { directories } from "@/lib/directories/directories";
 
 function Navbar({ title: string }) {
     const [navbar, setNavbar] = useState(false);
     return (
         <>
-            <nav className="w-full fixed p-2">
-                <div className="justify-between px-4 mx-8 lg:max-w-7xl md:items-center md:flex md:px-8">
+            <nav className="w-full fixed z-10">
+                <div className="flex flex-col justify-between px-4 lg:min-w-7xl bg-base-200 lg:flex-row lg:py-3 ">
                     <div>
-                        <div className="flex items-center justify-between py-3 md:py-5 md:block">
+                        <div className="flex flex-col justify-between py-3 md:block">
                             <div className="md:hidden">
                                 <button
                                     className="p-2 text-gray-700 rounded-md outline-none focus:border-gray-400 focus:border"
@@ -51,10 +53,26 @@ function Navbar({ title: string }) {
                     </div>
                     <div>
                         <div
-                            className={`flex-1 justify-self-center mt-8 md:block md:pb-0 md:mt-0 ${
+                            className={`flex-1 justify-between lg:hidden md:hidden ${
                                 navbar ? "block" : "hidden"
                             }`}
                         >
+                            {directories.map((item) => (
+                                <Link
+                                    key={item.slug}
+                                    href={item.path}
+                                    className="hover:cursor-pointer"
+                                >
+                                    <div
+                                        className="pt-8 mx-8"
+                                        onClick={() => setNavbar(!navbar)}
+                                    >
+                                        <span className="font-body font-bold text-lg">
+                                            {item.name}
+                                        </span>
+                                    </div>
+                                </Link>
+                            ))}
                             <ThemeToggler />
                         </div>
                     </div>

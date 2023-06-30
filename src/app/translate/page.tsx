@@ -66,7 +66,7 @@ export default function Translate() {
         </p>
     ));
     return (
-        <section className="pt-16 lg:px-48 px-12 md:px-20 flex flex-col gap-8">
+        <section className="pt-16 lg:px-48 px-6 md:px-20 flex flex-col gap-8">
             <form onSubmit={getTranslation} className="flex flex-col gap-8">
                 <div className="text-xl font-display">translator</div>
                 <textarea
