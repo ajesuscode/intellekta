@@ -27,13 +27,22 @@ export default function Tutor() {
     }
     console.log(result);
     const paragraphs = result.split("\n").map((paragraph, index) => (
-        <p key={index} className="mb-2 text-sm">
+        <p key={index} className="mb-2 text-lg">
             {paragraph}
         </p>
     ));
     return (
-        <div className="h-full p-8 mx-auto flex flex-col gap-4 font-body pt-16 lg:px-48 px-12 md:px-20">
+        <div className="h-full p-8 mx-auto flex flex-col gap-4 pt-16 lg:px-48 px-12 md:px-20">
             <span className="text-primary font-display">TUTOR PAGE</span>
+            <span className="text-sm font-body">
+                - Paste phrase or sentence and I will correct it gramatically
+            </span>
+            <span className="text-sm font-body">
+                - Paste noun I will provide you synonims and antonims
+            </span>
+            <span className="text-sm font-body">
+                - Paste verb I will provide you conjunction
+            </span>
             <textarea
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
@@ -50,7 +59,9 @@ export default function Tutor() {
                     <span>ASK</span>
                 )}
             </button>
-            <div className="flex flex-col h-96">{paragraphs}</div>
+            <div className="flex flex-col pt-12 max-h-md overflow-y-auto">
+                <span className="font-body">{paragraphs}</span>
+            </div>
         </div>
     );
 }
