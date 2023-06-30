@@ -19,7 +19,6 @@ export default function RootLayout({
             <body className="h-screen">
                 <Providers>
                     <Suspense fallback="...">
-                        {/* @ts-expect-error Server Component */}
                         <Navbar />
                         <main className="flex w-full flex-row h-full ">
                             <Drawer />

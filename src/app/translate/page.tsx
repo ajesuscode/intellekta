@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { useCopyToClipboard } from "@uidotdev/usehooks";
+import { useCopyToClipboard } from "usehooks-ts";
 import { ClipboardDocumentIcon } from "@heroicons/react/24/outline";
 
 const languages: string[] = [
@@ -17,16 +17,14 @@ const languages: string[] = [
 ];
 
 export default function Translate() {
-    const [query, setQuery] = useState("");
-    const [result, setResult] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [query, setQuery] = useState<string>("");
+    const [result, setResult] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
     const [language, setLanguage] = useState("English");
     const [native, setNative] = useState("Ukrainian");
     const [copiedText, copyToClipboard] = useCopyToClipboard();
 
-    async function getTranslation(
-        event: React.KeyboardEvent<HTMLInputElement>
-    ) {
+    async function getTranslation(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         console.log(query);
         console.log(native);

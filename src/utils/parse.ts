@@ -1,4 +1,4 @@
-export async function parse(textArray: string[]): Promise<T[]> {
+export async function parse<T>(textArray: string[]): Promise<T[]> {
     try {
         const parsedArray: T[] = [];
 
@@ -8,8 +8,8 @@ export async function parse(textArray: string[]): Promise<T[]> {
                 ? text.trim().split(/```(?:json)?/)[1]
                 : text.trim();
             console.log("REAL JSON I ASSUME", json);
-            // const parsedObj = JSON.parse(json);
-            // console.log("Parsed object", typeof parsedObj);
+            const parsedObj = JSON.parse(json);
+            console.log("Parsed object", typeof parsedObj);
             parsedArray.push(parsedObj);
             console.log("ARRRAAAAAYYY", parsedArray);
         }
@@ -20,7 +20,7 @@ export async function parse(textArray: string[]): Promise<T[]> {
     }
 }
 
-export function parseJsonArray(arr) {
+export function parseJsonArray(arr: string[]) {
     console.log(arr);
     const result = [];
     for (let str of arr) {

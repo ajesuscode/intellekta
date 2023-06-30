@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { OpenAI } from "langchain/llms/openai";
 import { PromptTemplate } from "langchain/prompts";
 import { LLMChain } from "langchain/chains";
-import { model } from "app/config/openai";
 
 export async function POST(req: NextRequest) {
     try {
@@ -28,6 +27,6 @@ export async function POST(req: NextRequest) {
         console.log(res.text);
         return NextResponse.json(res.text);
     } catch (err) {
-        throw new Error(err);
+        throw NextResponse.json(err);
     }
 }

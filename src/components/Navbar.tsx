@@ -5,7 +5,7 @@ import ThemeToggler from "./ThemeToggler";
 import Drawer from "./Drawer";
 import { directories } from "@/lib/directories/directories";
 
-function Navbar({ title: string }) {
+function Navbar() {
     const [navbar, setNavbar] = useState(false);
     return (
         <>

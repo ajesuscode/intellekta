@@ -5,11 +5,11 @@ import { parseJsonArray } from "../../utils/parse";
 import { type } from "os";
 
 export default function ExperimentPage() {
-    const [result, setResult] = useState([]);
-    const [query, setQuery] = useState("");
-    const [chatHistory, setChatHistory] = useState([]);
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [result, setResult] = useState<any[]>([]);
+    const [query, setQuery] = useState<string>("");
+    const [chatHistory, setChatHistory] = useState<any[]>([]);
+    const [error, setError] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
 
     async function getExperiments() {
         try {
@@ -35,18 +35,15 @@ export default function ExperimentPage() {
                 }
             }
         } catch (err) {
-            setError(err);
+            setError((err as Error).message);
         }
     }
     console.log(result);
 
     return (
         <div className="flex flex-col h-full font-body pt-12 lg:px-12">
-            {error && (
-                <div
-                    className="alert alert-error"
-                    onClick={() => setError(null)}
-                >
+            {error !== "" && (
+                <div className="alert alert-error" onClick={() => setError("")}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="stroke-current shrink-0 h-6 w-6"

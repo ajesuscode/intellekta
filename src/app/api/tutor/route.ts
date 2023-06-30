@@ -51,7 +51,6 @@ Your response in 8 different tenses:
             promptNames,
             promptDescriptions,
             promptTemplates,
-            verbose: true,
         });
         const response = multiPromptChain.call({
             input: body.query,

@@ -6,13 +6,11 @@ import { load } from "cheerio";
 
 interface Template {
     id: number;
+    name: string;
     theme: string;
     language: string;
     content: string;
     response?: string;
-}
-interface Alert {
-    text: string;
 }
 
 const languages: string[] = [
@@ -27,23 +25,21 @@ const languages: string[] = [
     // Add more languages as needed
 ];
 
-const AddTemplateButton: React.FC = () => {
-    const [templates, setTemplates] = useState<Template[]>(() => {
-        // Load templates from localStorage when the component mounts
-        const savedTemplates = localStorage.getItem("templates");
-        return savedTemplates ? JSON.parse(savedTemplates) : [];
-    });
+const Emails: React.FC = () => {
+    const [templates, setTemplates] = useState<Template[]>([]);
     const [loading, setLoading] = useState(false);
-    const [alert, setAlert] = useState<Alert>("");
+    const [alert, setAlert] = useState<string>("");
 
     useEffect(() => {
-        // Save templates to localStorage whenever they change
-        localStorage.setItem("templates", JSON.stringify(templates));
-    }, [templates]);
+        // This code will only run on the client side
+        const savedTemplates = localStorage.getItem("templates");
+        setTemplates(savedTemplates ? JSON.parse(savedTemplates) : []);
+    }, []);
 
     const handleAddTemplate = useCallback(() => {
         const newTemplate: Template = {
             id: Date.now(),
+            name: "",
             theme: "",
             language: "",
             content: "",
@@ -237,4 +233,4 @@ const AddTemplateButton: React.FC = () => {
     );
 };
 
-export default AddTemplateButton;
+export default Emails;

@@ -100,8 +100,10 @@ export async function POST(req: NextRequest) {
                     chunkSize: 3000,
                     chunkOverlap: 200,
                 });
-                const output = await splitter.splitDocuments(doc);
-                results.push(output);
+                if (doc !== null) {
+                    const output = await splitter.splitDocuments(doc);
+                    results.push(output);
+                }
             }
             return results;
         };

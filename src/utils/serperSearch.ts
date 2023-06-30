@@ -9,6 +9,11 @@ interface ErrorResponse {
     status: number;
 }
 
+// Define an interface for the error response data
+interface ErrorResponseData {
+    message: string;
+}
+
 export async function serperSearch(
     query: string
 ): Promise<SearchResponse | ErrorResponse> {
@@ -28,8 +33,9 @@ export async function serperSearch(
         };
 
         const response: AxiosResponse = await axios(config);
-        return JSON.stringify(response.data);
-    } catch (error: AxiosError) {
+        return response.data as SearchResponse; // cast response.data to SearchResponse
+    } catch (error: any) {
+        // change the type of error to any
         console.log("Axios Error:", error);
 
         // Generate an appropriate error response
@@ -37,12 +43,14 @@ export async function serperSearch(
         let statusCode = 500;
 
         // Check if the error response contains specific information
-        if (error.response) {
-            errorMessage = error.response.data.message;
-            statusCode = error.response.status;
+        if (error && error.response) {
+            const axiosError = error as AxiosError; // cast error to AxiosError
+            const errorData = axiosError.response?.data as ErrorResponseData; // cast axiosError.response.data to ErrorResponseData
+            errorMessage = errorData.message;
+            statusCode = axiosError.response?.status || 500;
         }
 
         // Return the error response
-        return { errorMessage, statusCode };
+        return { error: errorMessage, status: statusCode };
     }
 }

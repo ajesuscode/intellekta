@@ -8,7 +8,7 @@ import { AcademicCapIcon } from "@heroicons/react/24/outline";
 import { directories, type Item } from "@/lib/directories/directories";
 
 interface DrawerProps {
-    children: ReactNode;
+    children?: ReactNode;
 }
 
 export default function Drawer({ children }: DrawerProps) {
@@ -78,7 +78,7 @@ export default function Drawer({ children }: DrawerProps) {
         </main>
     );
 
-    function DirItem({ key, item }: { item: Item }) {
+    function DirItem({ item }: { item: Item }) {
         const segment = useSelectedLayoutSegment();
         console.log(segment);
         const isActive = item.slug === segment;

@@ -37,6 +37,6 @@ export async function POST(req: NextRequest) {
 
         return new StreamingTextResponse(stream);
     } catch (err) {
-        throw new Error(err);
+        throw new Error(String(err));
     }
 }
