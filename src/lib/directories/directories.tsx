@@ -41,7 +41,7 @@ export const directories: Item[] = [
         icon: <ExperimetnsIcon size={20} color="text-accent" />,
     },
     {
-        name: "Tutor",
+        name: "Language Tutor",
         path: "/tutor",
         slug: "tutor",
         icon: <TutorIcon size={20} color="text-accent" />,

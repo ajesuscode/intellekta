@@ -72,7 +72,7 @@ export default function Translate() {
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder={
                         loading
-                            ? "Detecting langiage...Translating"
+                            ? "Detecting language...Translating"
                             : "Paste text here and Ai will detect language"
                     }
                     disabled={loading}

@@ -8,44 +8,30 @@ export async function POST(req: NextRequest) {
         console.log(body);
         const model = new OpenAIChat({
             openAIApiKey: process.env.OPENAI_API_KEY,
-            modelName: "gpt-3.5-turbo",
+            modelName: "gpt-4",
             temperature: 0,
             maxTokens: 300,
         });
-        const promptNames = ["grammar", "nouns", "verbs"];
+        const promptNames = ["grammar", "explainer", "verbs"];
         const promptDescriptions = [
-            "Only provides language grammar correction",
-            "Good for answering everything about nouns",
-            "Good for answering everything about verbs conjunctions",
+            "Detects grammar mistakes and provide grammar correction",
+            "Detects user demand for langiage rules and grammar explanations",
+            "Detects verbs and provides conjugation",
         ];
-        const grammarTemplate = `You are language professor. You must correct grammar mistakes if they are. If there ane no mistakes in user input, answer "OK". Provide only correction. Dont write descriptions. Dont answer questions. User input will be inside ####
-
-Here is a phrase: ####
-{input}
-####
-Correct response:
+        const grammarTemplate = `You are language gramar professor. If user input is more than 1 word, You must detect a grammar mistake and correct them if they exist in any provided to you language. If there ane no mistakes in user input, answer "EVERYTHING IS OK". Provide only correction. Dont write descriptions. Dont answer questions. User input will be inside #### Here is a phrase: #### {input} #### Correct response:
 `;
-        const nounTemplate = `You are a very smart world dictionary. User will provide you a noun. You must respond in user input language. When user provides a single noun you responde with this markdown language format: NOUN:deatailed explanations of the noun meaning,
-        SYNONYM: five synonyms,
-        ANTONYM: five antonyms
-        User input will be inside ####
-
-Here is a noun:
-####
-{input}
-####
+        const explainerTemplate = `You can explain everything that is related to language rules and grammar. Provide explanation with analogies and 4 examples. User input will be inside #### Here is a phrase: #### {input} ####
 `;
 
-        const verbTemplate = `You are a very smart professor of verbs. You are great at conjunction of any verbs in the world. When user provides you a verb, you need to conjug it in 9 different tenses including present, past and future. Respond in user input language. Follow this format example: TENSE NAME:\n I verb, You verb, and so on
-        User input will be inside ####
-Here is a verb:
-####
-{input}
-####
-Your response in 8 different tenses:
+        const verbTemplate = `You are a very smart professor of all languages verbs. You are great at conjunction of any verbs in the world. When user provides you a verb, you need to conjug it in 9 different tenses including present, past and future. Respond in user input language. Follow this format example: TENSE NAME: I verb, You verb, and so on
+        User input will be inside #### Here is a verb: #### {input} #### Your response in 9 different tenses:
 `;
 
-        const promptTemplates = [grammarTemplate, nounTemplate, verbTemplate];
+        const promptTemplates = [
+            grammarTemplate,
+            explainerTemplate,
+            verbTemplate,
+        ];
 
         const multiPromptChain = MultiPromptChain.fromLLMAndPrompts(model, {
             promptNames,

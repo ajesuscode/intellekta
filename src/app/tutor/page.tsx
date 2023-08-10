@@ -32,24 +32,26 @@ export default function Tutor() {
         </p>
     ));
     return (
-        <div className="h-full pt-8 px-4 mx-auto flex flex-col gap-4  lg:px-48 md:px-20">
-            <span className="text-primary font-display">TUTOR PAGE</span>
-            <span className="text-sm font-body">
-                - Paste phrase or sentence and I will correct it gramatically
+        <div className="h-full pt-8 px-4 mx-auto flex flex-col gap-2  lg:px-48 md:px-20">
+            <span className="text-primary font-display">
+                LANGUAGE TUTOR PAGE
             </span>
             <span className="text-sm font-body">
-                - Paste noun I will provide you synonims and antonims
+                - I do explain rules and grammatics
             </span>
             <span className="text-sm font-body">
-                - Paste verb I will provide you conjunction
+                - I do correct grammar mistakes
+            </span>
+            <span className="text-sm font-body pb-6">
+                - I know how to conjug the verbs
             </span>
             <textarea
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                className="textarea textarea-sm bg-neutral text-xl"
+                className="textarea textarea-sm bg-neutral text-xl "
             ></textarea>
             <button
-                className="btn btn-sm btn-primary"
+                className="btn btn-sm btn-secondary mt-4"
                 onClick={askTutor}
                 disabled={isLoading}
             >
