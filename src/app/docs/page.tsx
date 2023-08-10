@@ -1,4 +1,4 @@
-// use client;
+"use client";
 import React, { useState, ReactElement } from "react";
 
 // Assuming these are React components, you can import them as such. If the MDX compiler is set up correctly, it should handle them just fine.
