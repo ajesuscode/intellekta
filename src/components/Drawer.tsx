@@ -89,12 +89,13 @@ export default function Drawer({ children }: DrawerProps) {
                     <Link
                         href={`${item.path}`}
                         className={
-                            "flex flex-row font-body text-md p-2 " +
+                            "flex flex-row gap-2 items-center font-body text-md p-2 " +
                             (isActive
                                 ? "p-2 px-4 rounded-lg hover:bg-emerald-700 bg-primary text-base-300"
                                 : "p-2 px-4 rounded-lg hover:bg-zinc-800 text-neutral")
                         }
                     >
+                        <div>{item.icon}</div>
                         <div>{item.name}</div>
                     </Link>
                 ) : (
@@ -107,7 +108,7 @@ export default function Drawer({ children }: DrawerProps) {
                                 : "p-4 rounded-lg hover:bg-zinc-800 text-neutral")
                         }
                     >
-                        <div className="">{item.name.slice(0, 1)}</div>
+                        <div className="">{item.icon}</div>
                     </Link>
                 )}
             </>
