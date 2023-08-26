@@ -6,6 +6,7 @@ import {
     EmailIcon,
     ExperimetnsIcon,
     TutorIcon,
+    TerminalIcon,
 } from "@/components/icons/icons";
 
 export type Item = {
@@ -45,5 +46,11 @@ export const directories: Item[] = [
         path: "/tutor",
         slug: "tutor",
         icon: <TutorIcon size={20} color="text-accent" />,
+    },
+    {
+        name: "Terminal",
+        path: "/terminal",
+        slug: "terminal",
+        icon: <TerminalIcon size={20} color="text-accent" />,
     },
 ];
