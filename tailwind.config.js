@@ -10,6 +10,13 @@ module.exports = {
             fontFamily: {
                 display: ["Station"],
                 body: ["Satoshi"],
+                code: ["Courier New", "monospace"],
+            },
+            backgroundColor: {
+                "code-bg": "#2d2d2d",
+            },
+            lineHeight: {
+                code: "1.4",
             },
         },
     },
