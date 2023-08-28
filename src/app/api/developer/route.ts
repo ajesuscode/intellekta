@@ -11,8 +11,8 @@ export async function POST(req: NextRequest) {
         const model = new OpenAI({
             openAIApiKey: process.env.OPENAI_API_KEY,
             modelName: "gpt-3.5-turbo",
-            temperature: 0.7,
-            maxTokens: 1000,
+            temperature: 0,
+            maxTokens: 3000,
         });
 
         let template = "Provide answer in a friendly form";
